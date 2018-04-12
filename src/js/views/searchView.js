@@ -1,4 +1,4 @@
-import {elements} from './base'
+import {elements, renderButtons} from './base'
 
 export const getInput = () => {
     return elements.searchInput.value;
@@ -20,8 +20,13 @@ const renderRecipe = recipe => {
     elements.searchResList.insertAdjacentHTML('beforeend', markup)
 }
 
-export const renderResults = recipes => {
-    recipes.forEach( renderRecipe )
+export const renderResults = (recipes, page=2, resPerPage=10) => {
+    const start = (page-1) * resPerPage;
+    const end = page * resPerPage;
+
+    recipes.slice(start, end).forEach( renderRecipe )
+
+    renderButtons(page, recipes.length, resPerPage)
 }
 
 export const clearInput = () => {
@@ -30,6 +35,7 @@ export const clearInput = () => {
 
 export const clearResults = () => {
     elements.searchResList.innerHTML = ''
+    elements.searchResPages.innerHTML = ''
 }
 
 const limitRecipeTitle = (title, limit = 16) => {
