@@ -2,6 +2,7 @@ import Search from './models/Search'
 import Recipe from './models/Recipe'
 import {elements, renderLoader, clearLoader} from './views/base'
 import * as searchView from './views/searchView'
+import * as recipeView from './views/recipeView'
 
 const state = {}
 
@@ -55,17 +56,24 @@ const controlRecipe = async () => {
         state.recipe = new Recipe(id)
 
         try{
+            recipeView.clearResults()
             renderLoader(elements.recipe)
+
+            if( state.search){
+                searchView.highlightSelected(id)
+            }
+            
             await state.recipe.getRecipe()
-            clearLoader()
     
             state.recipe.calcServings()
             state.recipe.calcTime()
             state.recipe.parseIngredients()
     
+            clearLoader()
+            recipeView.renderRecipe(state.recipe)
             console.log(state.recipe)
         } catch(error){
-            alert("Error processing recipe.")
+            alert(error)
             clearLoader()
         }
         
@@ -77,3 +85,14 @@ const controlRecipe = async () => {
 
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe))
 
+elements.recipe.addEventListener('click', e => {
+    const btn = e.target.closest('.btn-tiny')
+    if(e.target.matches('.btn-decrease, .btn-decrease *')){
+        state.recipe.updateServings('dec')
+        recipeView.renderRecipe(state.recipe)
+    }
+    if(e.target.matches('.btn-increase, .btn-increase *')){
+        state.recipe.updateServings('inc')
+        recipeView.renderRecipe(state.recipe)
+    }
+})

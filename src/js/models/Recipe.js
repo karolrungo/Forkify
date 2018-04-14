@@ -34,6 +34,7 @@ export default class Recipe{
     parseIngredients(){
         const unitsLong = ['tablespoons', 'tablespoon', 'ounces', 'ounce', 'teaspoons', 'teaspoon', 'cups', 'pounds']
         const unitsShort = ['tbsp', 'tbsp', 'oz', 'oz', 'ts', 'ts', 'cup', 'pound']
+        const units = [...unitsShort, 'kg', 'g']
 
         const newIngredients = this.ingredients.map( el => {
             //uniform units
@@ -49,7 +50,7 @@ export default class Recipe{
             //parse into count, unit and ingredient
             const arrIng = ingredient.split(' ')
             const unitIndex = arrIng.findIndex( el2 => {
-                return unitsShort.includes(el2)
+                return units.includes(el2)
             })
             
             let objIng;
@@ -88,5 +89,18 @@ export default class Recipe{
             return objIng
         })
         this.ingredients = newIngredients
+    }
+
+    updateServings(type){
+        const newServings = type === 'dec' ? this.servings - 1 : this.servings + 1
+
+        if (newServings > 0)
+        {
+            this.ingredients.forEach( el => {
+                el.count = el.count * (newServings / this.servings)
+            })
+
+            this.servings = newServings
+        }
     }
 }
