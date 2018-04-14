@@ -4,6 +4,7 @@ import List from './models/List'
 import {elements, renderLoader, clearLoader} from './views/base'
 import * as searchView from './views/searchView'
 import * as recipeView from './views/recipeView'
+import * as listView from './views/listView'
 
 const state = {}
 
@@ -81,6 +82,19 @@ const controlRecipe = async () => {
     }
 }
 
+// LIST CONTROLLER
+
+const controlList = () => {
+    if(!state.list){
+        state.list = new List()
+    }
+
+    state.recipe.ingredients.forEach( el => {
+        const item = state.list.additem(el.count, el.unit, el.ingredient)
+        listView.renderItem(item)
+    })
+}
+
 //window.addEventListener('hashchange', controlRecipe);
 //window.addEventListener('load', controlRecipe);
 
@@ -96,6 +110,26 @@ elements.recipe.addEventListener('click', e => {
         state.recipe.updateServings('inc')
         recipeView.renderRecipe(state.recipe)
     }
+
+    if(e.target.matches('.recipe__btn--add, .recipe__btn--add *')){
+        controlList()
+    }
 })
 
-window.l = new List()
+elements.shoppingList.addEventListener('click', e => {
+    e.preventDefault()
+    console.log("dziendobry")
+    const id = e.target.closest('.shopping__item').dataset.itemid;
+    console.log(id)
+    
+    if(e.target.matches('.shopping__delete', '.shopping__delete *')){
+        state.list.deleteitem(id)
+        listView.deleteItem(id)
+        console.log(state.list)
+    }
+    if(e.target.matches('.shopping__count-value', '.shopping__count-value *')){
+        const val = parseFloat( e.target.value)
+        state.list.updateCount(id, val);
+        console.log(state.list)
+    }
+})
