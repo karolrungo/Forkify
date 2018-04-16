@@ -98,10 +98,6 @@ const controlList = () => {
     })
 }
 
-//testing
-state.likes = new Likes()
-likesView.toggleLikeMenu(state.likes.getNumLikes())
-
 //LIKE CONTROLLER
 const controlLike = () =>{
     if(!state.likes) state.likes = new Likes()
@@ -176,3 +172,17 @@ elements.shoppingList.addEventListener('click', e => {
     }
 })
 
+//testing
+
+
+window.addEventListener('load', () => {
+    console.log("WINDOW LOADED")
+
+    state.likes = new Likes()
+    state.likes.readDataFromLocalStorage()
+
+    likesView.toggleLikeMenu(state.likes.getNumLikes())
+    state.likes.likes.forEach( like => {
+        likesView.renderLike(like)
+    })
+})
