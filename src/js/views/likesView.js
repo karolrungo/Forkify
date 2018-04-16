@@ -7,7 +7,6 @@ export const toggleLikeBtn = (isLiked) => {
 }
 
 export const toggleLikeMenu = (numLikes) => {
-    console.log(`dzien dobry ${numLikes}`)
     elements.likesMenu.style.visibility = numLikes > 0 ? 'visible' : 'hidden'
 }
 

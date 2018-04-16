@@ -51,10 +51,8 @@ elements.searchResPages.addEventListener('click', e => {
 })
 
 //RECIPE CONTROLLER
-
 const controlRecipe = async () => {
     const id = window.location.hash.replace('#' , '')
-    console.log(id)
 
     if(id){
 
@@ -76,7 +74,6 @@ const controlRecipe = async () => {
     
             clearLoader()
             recipeView.renderRecipe(state.recipe, state.likes.isLiked(state.recipe.id))
-            console.log(state.recipe)
         } catch(error){
             alert(error)
             clearLoader()
@@ -86,7 +83,6 @@ const controlRecipe = async () => {
 }
 
 // LIST CONTROLLER
-
 const controlList = () => {
     if(!state.list){
         state.list = new List()
@@ -116,7 +112,6 @@ const controlLike = () =>{
 
         //add like to UI list
         likesView.renderLike(newLike)
-        console.log(state.likes)
     } else{
         //delete like to the state
         state.likes.deleteLike(currId)
@@ -127,7 +122,6 @@ const controlLike = () =>{
 
         //delete like from UI list
         likesView.deleteLike(currId)
-        console.log(state.likes)
     }
 }
 
@@ -158,26 +152,18 @@ elements.recipe.addEventListener('click', e => {
 elements.shoppingList.addEventListener('click', e => {
     e.preventDefault()
     const id = e.target.closest('.shopping__item').dataset.itemid;
-    console.log(id)
     
     if(e.target.closest('.shopping__delete', '.shopping__delete *')){
         state.list.deleteitem(id)
         listView.deleteItem(id)
-        console.log(state.list)
     }
     if(e.target.matches('.shopping__count-value', '.shopping__count-value *')){
         const val = parseFloat( e.target.value)
         state.list.updateCount(id, val);
-        console.log(state.list)
     }
 })
 
-//testing
-
-
 window.addEventListener('load', () => {
-    console.log("WINDOW LOADED")
-
     state.likes = new Likes()
     state.likes.readDataFromLocalStorage()
 

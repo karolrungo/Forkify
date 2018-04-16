@@ -56,7 +56,6 @@ export const limitRecipeTitle = (title, limit = 16) => {
 
 export const highlightSelected = id => {
     const resultsLinks = Array.from(document.querySelectorAll('.results__link'))
-    console.log(resultsLinks)
     resultsLinks.forEach( link => link.classList.remove('results__link--active'))
     
     document.querySelector(`.results__link[href="#${id}"]`).classList.add('results__link--active')

@@ -24,7 +24,6 @@ export default class Likes{
 
     isLiked(id){
         const index = this.likes.findIndex(el => el.id === id)
-        console.log(`indeks do dodania: ${index}`)
         return index === -1 ? false : true
     }
 
