@@ -143,20 +143,18 @@ const controlLike = () =>{
 elements.recipe.addEventListener('click', e => {
     if(e.target.matches('.btn-decrease, .btn-decrease *')){
         state.recipe.updateServings('dec')
+        recipeView.clearResults()
         recipeView.renderRecipe(state.recipe, state.likes.isLiked(state.recipe.id))
     }
-    if(e.target.matches('.btn-increase, .btn-increase *')){
+    else if(e.target.matches('.btn-increase, .btn-increase *')){
         state.recipe.updateServings('inc')
+        recipeView.clearResults()
         recipeView.renderRecipe(state.recipe, state.likes.isLiked(state.recipe.id))
     }
-    if(e.target.matches('.recipe__btn--add, .recipe__btn--add *')){
+    else if(e.target.matches('.recipe__btn--add, .recipe__btn--add *')){
         controlList()
     }
-    if(e.target.matches('.btn-increase, .btn-increase *')){
-        state.recipe.updateServings('inc')
-        recipeView.renderRecipe(state.recipe, state.likes.isLiked(state.recipe.id))
-    }
-    if(e.target.matches('.recipe__love', '.recipe__love *')){
+    else if(e.target.closest('.recipe__love', '.recipe__love *')){
         controlLike()
     }
 })
@@ -166,7 +164,7 @@ elements.shoppingList.addEventListener('click', e => {
     const id = e.target.closest('.shopping__item').dataset.itemid;
     console.log(id)
     
-    if(e.target.matches('.shopping__delete', '.shopping__delete *')){
+    if(e.target.closest('.shopping__delete', '.shopping__delete *')){
         state.list.deleteitem(id)
         listView.deleteItem(id)
         console.log(state.list)
